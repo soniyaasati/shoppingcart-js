@@ -38,7 +38,7 @@ class UI {
               <h3 class="productlist-product-name">${product.name}</h3>
                 <h5 class="displayprice" data-price="${
                   product.price - (product.price * product.discount) / 100
-                }">
+                }"><span>$</span>
           ${product.price - (product.price * product.discount) / 100}
           <del class="productlist-delPrice">$${product.price}</del>
           <span class="productlist-discPrice">${product.discount}%</span>

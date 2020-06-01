@@ -1,13 +1,20 @@
-const cartBtn = document.querySelector(".navigationbar-cart-btn");
-const closeCartBtn = document.querySelector(".close-cart");
-const clearCartBtn = document.querySelector(".clear-cart");
+const cartBtn = document.querySelector(".navigationbar_center--cartbtn");
+
+const clearCartBtn = document.querySelector(".clear_cart");
 const cartDom = document.querySelector(".cart");
 const cartOverlay = document.querySelector(".cart-overlay");
-const cartItems = document.querySelector(".navigationbar-cart-items");
-const cartTotal = document.querySelector(".cart-total");
-const cartContent = document.querySelector(".cart-content");
-const productsDom = document.querySelector(".productlist-products-center");
-const bodyDom = document.querySelector("productbody");
+const cartItems = document.querySelector(".navigationbar_center--cartitems");
+const cartTotal = document.querySelector(".cart_total");
+const cartContent = document.querySelector(".cart_content");
+const productsDom = document.querySelector(".productlist_productscenter");
+const productlistDom = document.querySelector(".productlist");
+//const bodyDom = document.querySelector("productbody");
+const lowtohighprice = document.querySelector(".ltoh");
+const hightolowprice = document.querySelector(".htol");
+const discountprice = document.querySelector(".discount");
+const lowtohighpriceM = document.querySelector(".ltohM");
+const hightolowpriceM = document.querySelector(".htolM");
+const discountpriceM = document.querySelector(".discountM");
 
 let cart = [];
 let buttonsDOM = [];
@@ -23,27 +30,39 @@ class Products {
     }
   }
 }
+lowtohighprice.classList.add("productlist_sortBy--pricefilteractive");
+hightolowprice.classList.remove("productlist_sortBy--pricefilteractive");
+discountprice.classList.remove("productlist_sortBy--pricefilteractive");
+lowtohighpriceM.classList.add("productlist_sortBy--pricefilteractive");
+hightolowpriceM.classList.remove("productlist_sortBy--pricefilteractive");
+discountpriceM.classList.remove("productlist_sortBy--pricefilteractive");
 
 class UI {
   displyProducts(products) {
+    cartDom.style.display = "none";
+
     let result = "";
     products.forEach((product) => {
       result += `
-            <article class="productlist-product col-xs-6">
-              <div class="productlist-img-container">
+            <article class="productlist_product">
+              <div class="productlist_product--imgcontainer">
                   <img src=${
                     product.img_url
-                  } class="productlist-product-img" alt="item">
+                  } class="productlist_product--img" alt="item">
               </div>
-              <h3 class="productlist-product-name">${product.name}</h3>
-                <h5 class="displayprice" data-price="${
+              <h3 class="productlist_product--name">${product.name}</h3>
+                <h5 class="productlist_product--price" data-price="${
                   product.price - (product.price * product.discount) / 100
                 }"><span>$</span>
           ${product.price - (product.price * product.discount) / 100}
-          <del class="productlist-delPrice">$${product.price}</del>
-          <span class="productlist-discPrice">${product.discount}%</span>
+          <del class="productlist_product--delPrice">$${product.price}</del>
+          <span class="productlist_product--discPrice">${
+            product.discount
+          }%</span>
         </h5>
-              <button class="productlist-item-btn" data-id=${product.id}>
+              <button class="productlist_product--itembtn" data-id=${
+                product.id
+              }>
                Add to Cart
             </button>
           </article>`;
@@ -51,7 +70,9 @@ class UI {
     productsDom.innerHTML = result;
   }
   getBagButtons() {
-    const buttons = [...document.querySelectorAll(".productlist-item-btn")];
+    const buttons = [
+      ...document.querySelectorAll(".productlist_product--itembtn"),
+    ];
     buttonsDOM = buttons;
     buttons.forEach((button) => {
       let id = button.dataset.id;
@@ -59,10 +80,12 @@ class UI {
       let inCart = cart.find((item) => item.id === id);
       if (inCart) {
         button.innerText = "In Cart";
+        button.style.background = "#cfcfcf";
         button.disabled = true;
       }
       button.addEventListener("click", (event) => {
         event.target.innerText = "In Cart";
+        button.style.background = "#cfcfcf";
         event.target.disabled = true;
         //get product from products
         let cartItem = { ...Storage.getProducts(id), amount: 1 };
@@ -83,7 +106,8 @@ class UI {
     let tempTotal = 0;
     let itemsTotal = 0;
     cart.map((item) => {
-      tempTotal += item.price * item.amount;
+      tempTotal +=
+        (item.price - (item.price * item.discount) / 100) * item.amount;
       itemsTotal += item.amount;
     });
     cartTotal.innerText = parseFloat(tempTotal.toFixed(2));
@@ -91,41 +115,53 @@ class UI {
   }
   addCartItem(cartItem) {
     const div = document.createElement("div");
-    div.classList.add("cart-item");
-    div.innerHTML = `<div class="cart-main"><div class="cart-img"><img src=${cartItem.img_url} alt="item"></div>
-      <div class="cart-counter">
-          <h5>${cartItem.name}</h5>
-          <h5>$${cartItem.price}</h5>
+    div.classList.add("cart_item");
+    div.innerHTML = `<div class="cart_item--main"><div class="cart_item--img"><img src=${
+      cartItem.img_url
+    } alt="item"></div>
+      <div class="cart_item--counter">
+          <h5 class="cart_item--name">${cartItem.name}</h5>        
+
+           
+                <h5 class="cart_item--price" data-price="${
+                  cartItem.price - (cartItem.price * cartItem.discount) / 100
+                }"><span>$</span>
+          ${cartItem.price - (cartItem.price * cartItem.discount) / 100}
+          <del class="cart_item--delPrice">$${cartItem.price}</del>
+          <span class="cart_item--discPrice">${cartItem.discount}%</span>
+        </h5>
           
       </div>
      
-      <div class="cart-counter">
+      <div class="cart_item--counter">
           <i class="fas fa-plus-square" data-id=${cartItem.id}></i>
-          <span class="item-amount">${cartItem.amount}</span>
+          <span class="cart_item--amount">${cartItem.amount}</span>
           <i class="fas fa-minus-square" data-id=${cartItem.id}></i>
       </div>
-       <div class="cart-remove"><span class="remove-item" data-id=${cartItem.id}>remove</span></div>
+       <div class="cart_item--remove"><span class="remove-item" data-id=${
+         cartItem.id
+       }>Remove</span></div>
       </div></div>`;
     cartContent.appendChild(div);
   }
+
   showCart() {
-    cartOverlay.classList.add("cart-transparentBcg");
-    cartDom.classList.add("cart-showCart");
-    bodyDom.classList.add("hidescroll");
+    productlistDom.style.display = "none";
+    cartDom.style.display = "block";
+    //bodyDom.classList.add("hidescroll");
   }
   setUpApp() {
     cart = Storage.getCart();
     this.setCartValues(cart);
     this.populateCart(cart);
     cartBtn.addEventListener("click", this.showCart);
-    closeCartBtn.addEventListener("click", this.hideCart);
   }
   populateCart(cart) {
     cart.forEach((item) => this.addCartItem(item));
   }
   hideCart() {
-    cartOverlay.classList.remove("cart-transparentBcg");
-    cartDom.classList.remove("cart-showCart");
+    productlistDom.style.display = "block";
+    cartDom.style.display = "none";
   }
   cartLogic() {
     clearCartBtn.addEventListener("click", () => {
@@ -177,6 +213,7 @@ class UI {
     Storage.saveCart(cart);
     let button = this.getSingleButton(id);
     button.disabled = false;
+    button.style.background = "#f09d51";
     button.innerHTML = `Add to Cart`;
   }
   getSingleButton(id) {
@@ -205,6 +242,13 @@ class Storage {
 lowtohigh = () => {
   const ui = new UI();
   const products = new Products();
+  lowtohighprice.classList.add("productlist_sortBy--pricefilteractive");
+  hightolowprice.classList.remove("productlist_sortBy--pricefilteractive");
+  discountprice.classList.remove("productlist_sortBy--pricefilteractive");
+  lowtohighpriceM.classList.add("productlist_sortBy--pricefilteractive");
+  hightolowpriceM.classList.remove("productlist_sortBy--pricefilteractive");
+  discountpriceM.classList.remove("productlist_sortBy--pricefilteractive");
+
   ui.setUpApp();
   //get all products
   products
@@ -219,8 +263,8 @@ lowtohigh = () => {
       // Storage.saveProducts(products);
     })
     .then(() => {
-      // ui.getBagButtons();
-      ui.cartLogic();
+      ui.getBagButtons();
+      //  ui.cartLogic();
     });
 };
 document.getElementById("ltoh").onclick = function () {
@@ -232,6 +276,13 @@ document.getElementById("ltohM").onclick = function () {
 highttolow = () => {
   const ui = new UI();
   const products = new Products();
+  lowtohighprice.classList.remove("productlist_sortBy--pricefilteractive");
+  discountprice.classList.remove("productlist_sortBy--pricefilteractive");
+  hightolowprice.classList.add("productlist_sortBy--pricefilteractive");
+  lowtohighpriceM.classList.remove("productlist_sortBy--pricefilteractive");
+  discountpriceM.classList.remove("productlist_sortBy--pricefilteractive");
+  hightolowpriceM.classList.add("productlist_sortBy--pricefilteractive");
+
   ui.setUpApp();
   //get all products
   products
@@ -246,8 +297,8 @@ highttolow = () => {
       // Storage.saveProducts(products);
     })
     .then(() => {
-      // ui.getBagButtons();
-      ui.cartLogic();
+      ui.getBagButtons();
+      // ui.cartLogic();
     });
 };
 document.getElementById("htol").onclick = function () {
@@ -259,6 +310,13 @@ document.getElementById("htolM").onclick = function () {
 discount = () => {
   const ui = new UI();
   const products = new Products();
+  discountprice.classList.add("productlist_sortBy--pricefilteractive");
+  hightolowprice.classList.remove("productlist_sortBy--pricefilteractive");
+  lowtohighprice.classList.remove("productlist_sortBy--pricefilteractive");
+  discountpriceM.classList.add("productlist_sortBy--pricefilteractive");
+  hightolowpriceM.classList.remove("productlist_sortBy--pricefilteractive");
+  lowtohighpriceM.classList.remove("productlist_sortBy--pricefilteractive");
+
   ui.setUpApp();
   //get all products
   products
@@ -274,7 +332,7 @@ discount = () => {
     })
     .then(() => {
       ui.getBagButtons();
-      ui.cartLogic();
+      // ui.cartLogic();
     });
 };
 
@@ -302,17 +360,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 // Filter sorting - title//
-searchFunction = () => {
+searchProductFunction = () => {
   var input, filter, myItems, cards, i, current, h5, text;
 
-  input = document.getElementById("searchFilter");
+  input = document.getElementById("searchProduct_Input");
   filter = input.value.toUpperCase();
-  myItems = document.getElementById("productsdisp");
-  cards = myItems.getElementsByClassName("productlist-product");
+  myItems = document.getElementById("productsDisplay");
+  cards = myItems.getElementsByClassName("productlist_product");
 
   for (i = 0; i < cards.length; i++) {
     current = cards[i];
-    h5 = current.getElementsByClassName("productlist-product-name")[0];
+    h5 = current.getElementsByClassName("productlist_product--name")[0];
     text = h5.innerText.toUpperCase();
     if (text.indexOf(filter) > -1) {
       current.style.display = "";
@@ -327,7 +385,7 @@ function data_filter(mini, maxi, data_name) {
     var value = $(this).data(data_name);
 
     if (value > maxi || value < mini) {
-      $(this).closest(".productlist-product").addClass("slider1Hide");
+      $(this).closest(".productlist_product").addClass("sliderHide");
     }
   });
 }
@@ -336,8 +394,8 @@ function showProducts() {
   // Reset filters
 
   $("#productlistcenter article h5")
-    .closest(".productlist-product")
-    .removeClass("slider1Hide");
+    .closest(".productlist_product")
+    .removeClass("sliderHide");
   // Price
   var minP = $("#price").slider("values", 0);
   var maxP = $("#price").slider("values", 1);

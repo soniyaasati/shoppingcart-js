@@ -1,12 +1,12 @@
-const cartBtn = document.querySelector(".navigationbar_center--cartbtn");
+const cartBtn = document.querySelector(".navigationbar__center--cartbtn");
 
 const clearCartBtn = document.querySelector(".clear_cart");
 const cartDom = document.querySelector(".cart");
-const cartOverlay = document.querySelector(".cart-overlay");
-const cartItems = document.querySelector(".navigationbar_center--cartitems");
-const cartTotal = document.querySelector(".cart_total");
-const cartContent = document.querySelector(".cart_content");
-const productsDom = document.querySelector(".productlist_productscenter");
+//const cartOverlay = document.querySelector(".cart-overlay");
+const cartItems = document.querySelector(".navigationbar__center--cartitems");
+const cartTotal = document.querySelector(".cart__total");
+const cartContent = document.querySelector(".cart__content");
+const productsDom = document.querySelector(".productlist__productscenter");
 const productlistDom = document.querySelector(".productlist");
 //const bodyDom = document.querySelector("productbody");
 const lowtohighprice = document.querySelector(".ltoh");
@@ -30,12 +30,12 @@ class Products {
     }
   }
 }
-lowtohighprice.classList.add("productlist_sortBy--pricefilteractive");
-hightolowprice.classList.remove("productlist_sortBy--pricefilteractive");
-discountprice.classList.remove("productlist_sortBy--pricefilteractive");
-lowtohighpriceM.classList.add("productlist_sortBy--pricefilteractive");
-hightolowpriceM.classList.remove("productlist_sortBy--pricefilteractive");
-discountpriceM.classList.remove("productlist_sortBy--pricefilteractive");
+lowtohighprice.classList.add("productlist__sortBy--pricefilteractive");
+hightolowprice.classList.remove("productlist__sortBy--pricefilteractive");
+discountprice.classList.remove("productlist__sortBy--pricefilteractive");
+lowtohighpriceM.classList.add("productlist__sortBy--pricefilteractive");
+hightolowpriceM.classList.remove("productlist__sortBy--pricefilteractive");
+discountpriceM.classList.remove("productlist__sortBy--pricefilteractive");
 
 class UI {
   displyProducts(products) {
@@ -44,23 +44,27 @@ class UI {
     let result = "";
     products.forEach((product) => {
       result += `
-            <article class="productlist_product">
-              <div class="productlist_product--imgcontainer">
+            <article class="productlist__product">
+              <div class="productlist__product--imgcontainer">
                   <img src=${
                     product.img_url
-                  } class="productlist_product--img" alt="item">
+                  } class="productlist__product--img" alt="item">
               </div>
-              <h3 class="productlist_product--name">${product.name}</h3>
-                <h5 class="productlist_product--price" data-price="${
+              <h3 class="productlist__product--name">${product.name}</h3>
+                <h5 class="productlist__product--price" data-price="${
                   product.price - (product.price * product.discount) / 100
-                }"><span>$</span>
-          ${product.price - (product.price * product.discount) / 100}
-          <del class="productlist_product--delPrice">$${product.price}</del>
-          <span class="productlist_product--discPrice">${
+                }"><span><i class="fa fa-inr" aria-hidden="true"></i>${
+        product.price - (product.price * product.discount) / 100
+      }</span>
+          
+          <del class="productlist__product--delPrice"><i class="fa fa-inr" aria-hidden="true"></i>${
+            product.price
+          }</del>
+          <span class="productlist__product--discPrice">${
             product.discount
           }%</span>
         </h5>
-              <button class="productlist_product--itembtn" data-id=${
+              <button class="productlist__product--itembtn" data-id=${
                 product.id
               }>
                Add to Cart
@@ -71,7 +75,7 @@ class UI {
   }
   getBagButtons() {
     const buttons = [
-      ...document.querySelectorAll(".productlist_product--itembtn"),
+      ...document.querySelectorAll(".productlist__product--itembtn"),
     ];
     buttonsDOM = buttons;
     buttons.forEach((button) => {
@@ -115,30 +119,30 @@ class UI {
   }
   addCartItem(cartItem) {
     const div = document.createElement("div");
-    div.classList.add("cart_item");
-    div.innerHTML = `<div class="cart_item--main"><div class="cart_item--img"><img src=${
+    div.classList.add("cart__item");
+    div.innerHTML = `<div class="cart__item--main"><div class="cart__item--img"><img src=${
       cartItem.img_url
     } alt="item"></div>
-      <div class="cart_item--counter">
-          <h5 class="cart_item--name">${cartItem.name}</h5>        
+      <div class="cart__item--counter">
+          <h5 class="cart__item--name">${cartItem.name}</h5>        
 
            
-                <h5 class="cart_item--price" data-price="${
+                <h5 class="cart__item--price" data-price="${
                   cartItem.price - (cartItem.price * cartItem.discount) / 100
                 }"><span>$</span>
           ${cartItem.price - (cartItem.price * cartItem.discount) / 100}
-          <del class="cart_item--delPrice">$${cartItem.price}</del>
-          <span class="cart_item--discPrice">${cartItem.discount}%</span>
+          <del class="cart__item--delPrice">$${cartItem.price}</del>
+          <span class="cart__item--discPrice">${cartItem.discount}%</span>
         </h5>
           
       </div>
      
-      <div class="cart_item--counter">
+      <div class="cart__item--counter">
           <i class="fas fa-plus-square" data-id=${cartItem.id}></i>
-          <span class="cart_item--amount">${cartItem.amount}</span>
+          <span class="cart__item--amount">${cartItem.amount}</span>
           <i class="fas fa-minus-square" data-id=${cartItem.id}></i>
       </div>
-       <div class="cart_item--remove"><span class="remove-item" data-id=${
+       <div class="cart__item--remove"><span class="remove-item" data-id=${
          cartItem.id
        }>Remove</span></div>
       </div></div>`;
@@ -242,12 +246,12 @@ class Storage {
 lowtohigh = () => {
   const ui = new UI();
   const products = new Products();
-  lowtohighprice.classList.add("productlist_sortBy--pricefilteractive");
-  hightolowprice.classList.remove("productlist_sortBy--pricefilteractive");
-  discountprice.classList.remove("productlist_sortBy--pricefilteractive");
-  lowtohighpriceM.classList.add("productlist_sortBy--pricefilteractive");
-  hightolowpriceM.classList.remove("productlist_sortBy--pricefilteractive");
-  discountpriceM.classList.remove("productlist_sortBy--pricefilteractive");
+  lowtohighprice.classList.add("productlist__sortBy--pricefilteractive");
+  hightolowprice.classList.remove("productlist__sortBy--pricefilteractive");
+  discountprice.classList.remove("productlist__sortBy--pricefilteractive");
+  lowtohighpriceM.classList.add("productlist__sortBy--pricefilteractive");
+  hightolowpriceM.classList.remove("productlist__sortBy--pricefilteractive");
+  discountpriceM.classList.remove("productlist__sortBy--pricefilteractive");
 
   ui.setUpApp();
   //get all products
@@ -276,12 +280,12 @@ document.getElementById("ltohM").onclick = function () {
 highttolow = () => {
   const ui = new UI();
   const products = new Products();
-  lowtohighprice.classList.remove("productlist_sortBy--pricefilteractive");
-  discountprice.classList.remove("productlist_sortBy--pricefilteractive");
-  hightolowprice.classList.add("productlist_sortBy--pricefilteractive");
-  lowtohighpriceM.classList.remove("productlist_sortBy--pricefilteractive");
-  discountpriceM.classList.remove("productlist_sortBy--pricefilteractive");
-  hightolowpriceM.classList.add("productlist_sortBy--pricefilteractive");
+  lowtohighprice.classList.remove("productlist__sortBy--pricefilteractive");
+  discountprice.classList.remove("productlist__sortBy--pricefilteractive");
+  hightolowprice.classList.add("productlist__sortBy--pricefilteractive");
+  lowtohighpriceM.classList.remove("productlist__sortBy--pricefilteractive");
+  discountpriceM.classList.remove("productlist__sortBy--pricefilteractive");
+  hightolowpriceM.classList.add("productlist__sortBy--pricefilteractive");
 
   ui.setUpApp();
   //get all products
@@ -310,12 +314,12 @@ document.getElementById("htolM").onclick = function () {
 discount = () => {
   const ui = new UI();
   const products = new Products();
-  discountprice.classList.add("productlist_sortBy--pricefilteractive");
-  hightolowprice.classList.remove("productlist_sortBy--pricefilteractive");
-  lowtohighprice.classList.remove("productlist_sortBy--pricefilteractive");
-  discountpriceM.classList.add("productlist_sortBy--pricefilteractive");
-  hightolowpriceM.classList.remove("productlist_sortBy--pricefilteractive");
-  lowtohighpriceM.classList.remove("productlist_sortBy--pricefilteractive");
+  discountprice.classList.add("productlist__sortBy--pricefilteractive");
+  hightolowprice.classList.remove("productlist__sortBy--pricefilteractive");
+  lowtohighprice.classList.remove("productlist__sortBy--pricefilteractive");
+  discountpriceM.classList.add("productlist__sortBy--pricefilteractive");
+  hightolowpriceM.classList.remove("productlist__sortBy--pricefilteractive");
+  lowtohighpriceM.classList.remove("productlist__sortBy--pricefilteractive");
 
   ui.setUpApp();
   //get all products
@@ -363,14 +367,14 @@ document.addEventListener("DOMContentLoaded", () => {
 searchProductFunction = () => {
   var input, filter, myItems, cards, i, current, h5, text;
 
-  input = document.getElementById("searchProduct_Input");
+  input = document.getElementById("searchProduct__Input");
   filter = input.value.toUpperCase();
   myItems = document.getElementById("productsDisplay");
-  cards = myItems.getElementsByClassName("productlist_product");
+  cards = myItems.getElementsByClassName("productlist__product");
 
   for (i = 0; i < cards.length; i++) {
     current = cards[i];
-    h5 = current.getElementsByClassName("productlist_product--name")[0];
+    h5 = current.getElementsByClassName("productlist__product--name")[0];
     text = h5.innerText.toUpperCase();
     if (text.indexOf(filter) > -1) {
       current.style.display = "";
@@ -385,7 +389,7 @@ function data_filter(mini, maxi, data_name) {
     var value = $(this).data(data_name);
 
     if (value > maxi || value < mini) {
-      $(this).closest(".productlist_product").addClass("sliderHide");
+      $(this).closest(".productlist__product").addClass("sliderHide");
     }
   });
 }
@@ -394,7 +398,7 @@ function showProducts() {
   // Reset filters
 
   $("#productlistcenter article h5")
-    .closest(".productlist_product")
+    .closest(".productlist__product")
     .removeClass("sliderHide");
   // Price
   var minP = $("#price").slider("values", 0);
@@ -415,25 +419,28 @@ $(function () {
     step: 50,
     values: [0, 1000],
     slide: function (event, ui) {
-      $("#amount").val(ui.values[0] + " $ - " + ui.values[1] + " $");
-      $("#amountM").val(ui.values[0] + " $ - " + ui.values[1] + " $");
+      $("#amount").val(ui.values[0] + " - " + ui.values[1] + " ");
+      $("#amountM").val(ui.values[0] + "- " + ui.values[1] + " ");
     },
     change: function (event, ui) {
-      showProducts();
+      //showProducts();
     },
   };
   $("#price").slider(options);
   $("#priceM").slider(options);
   $("#amount").val(
     $("#price").slider("values", 0) +
-      " $ - " +
+      " - " +
       $("#price").slider("values", 1) +
-      " $"
+      ""
   );
   $("#amountM").val(
     $("#priceM").slider("values", 0) +
-      " $ - " +
+      " - " +
       $("#priceM").slider("values", 1) +
-      " $"
+      ""
   );
+});
+$(".slider__applyfilter--btn").on("click", function () {
+  showProducts();
 });

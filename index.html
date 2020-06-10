@@ -29,15 +29,22 @@
 
     <!-- Navigationbar Starts-->
     <nav class="navigationbar">
-      <div class="navigationbar_center">
-        <span class="navigationbar_center--iconlogo">
+      <div class="navigationbar__center">
+        <span class="navigationbar__center--iconlogo">
           <a href="index.html"><i class="fas fa-star"></i></a>
         </span>
-        <div class="navigationbar_center--cartbtn">
-          <span class="navigationbar_center--icon">
+        <div class="navigationbar__center--cartbtn">
+            <!--Search Starts-->
+            <div class="searchProduct">
+              <input type="text" class="searchProduct__Input" placeholder="Search Product" id="searchProduct__Input"
+                onkeyup="searchProductFunction()" />
+            </div>
+            <!--Search Ends-->
+          <div class="navigationbar__center--icon">
             <i class="fas fa-cart-plus"></i>
-          </span>
-          <div class="navigationbar_center--cartitems">0</div>
+          
+          <div class="navigationbar__center--cartitems">0</div>
+          </div>
         </div>
       </div>
     </nav>
@@ -46,12 +53,12 @@
     <!-- Product List Section Starts-->
       <div class="container-fluid productlist">
               <div class="row">
-                <div class="productlist_sortMobile">
+                <div class="productlist__sortMobile">
                   <button type="button" class="btn btn-link" data-toggle="modal" data-target="#sort" style="color: black;">
                     Sort&nbsp;<i class="fas fa-sort"></i>
                   </button>
                 </div>
-                <div class="productlist_filterMobile">
+                <div class="productlist__filterMobile">
                   <button type="button" class="btn btn-link" data-toggle="modal" data-target="#filter" style="color: black;">
                     Filter&nbsp;<i class="fas fa-filter"></i>
                   </button>
@@ -59,48 +66,39 @@
               </div>
         <div class="row">
           <!--Left Section Starts-->
-          <div class="col-md-2 productlist_desktopfilter">
-            <label for="productlist_desktopfilter--amount"><strong class="productlist_desktopfilter--label">Filter By Price</strong></label>
+          <div class="col-md-2 productlist__desktopfilter">
+            <label for="productlist__desktopfilter--amount"><strong class="productlist__desktopfilter--label">Filter By Price</strong></label>
             <input
               type="text"
               id="amount"
               readonly
-             class="productlist_desktopfilter--amount pb-2"
+             class="productlist__desktopfilter--amount pb-2"
             />
             <div class="slider" id="price"></div>
+         <div class="slider__applyfilter" ><input type="button" class="btn btn-primary slider__applyfilter--btn mt-4" value="Apply Filter" /></div>
           </div>
           <!--Left Section Ends-->
           <!--Right Section Starts-->
           <div class="col-md-9">
             <!--Sorting Starts-->
-            <div class="productlist_sortBy">
+            <div class="productlist__sortBy">
               Sort By
-              <span class="ltoh productlist_sortBy--pricefilter" id="ltoh"
+              <span class="ltoh productlist__sortBy--pricefilter" id="ltoh"
                 >Price--Low High</span
               >
-              <span class="htol productlist_sortBy--pricefilter" id="htol"
+              <span class="htol productlist__sortBy--pricefilter" id="htol"
                 >Price--High Low</span
               >
-              <span class="discount productlist_sortBy--pricefilter" id="discount"
+              <span class="discount productlist__sortBy--pricefilter" id="discount"
                 >Discount</span
               >
             </div>
             <!--Sorting Ends-->
-            <!--Search Starts-->
-            <div class="searchProduct">
-              <input
-                type="text"
-                class="searchProduct_Input"
-                placeholder="Search Product"
-                id="searchProduct_Input"
-                onkeyup="searchProductFunction()"
-              />
-            </div>
-            <!--Search Ends-->
+         
             <!--List Items-->
-            <section class="productlist_products" id="productsDisplay">
+            <section class="productlist__products" id="productsDisplay">
               <div
-                class="productlist_productscenter"
+                class="productlist__productscenter"
                 id="productlistcenter"
               ></div>
             </section>
@@ -116,13 +114,13 @@
         <div class="cart container">          
           <div class="row">
             <div class="col-md-8 p0">
-              <div class="cart_content"></div>
+              <div class="cart__content"></div>
             </div>
-            <div class="col-md-3 cart_pricedetails">
+            <div class="col-md-3 cart__pricedetails">
               <h5><strong>Price Details</strong> </h5>
               <hr />
-              <h5 class="pb-4">Total Payable: $ <span class="cart_total">0</span></h5>
-              <button class="clear_cart cart_bannerbtn">Clear Cart</button>
+              <h5 class="pb-4">Total Payable: $ <span class="cart__total">0</span></h5>
+              <button class="clear_cart cart__bannerbtn">Clear Cart</button>
             </div>
           </div>
         </div>
@@ -148,9 +146,9 @@
       <div class="modal-body">
         <div class="productlist_sortByM">
           Sort By
-          <div class="ltohM productlist_sortBy--pricefilter" id="ltohM">Price--Low High</div>
-          <div class="htolM productlist_sortBy--pricefilter" id="htolM">Price--High Low</div>
-          <div class="discountM productlist_sortBy--pricefilter" id="discountM">Discount</div>
+          <div class="ltohM productlist__sortBy--pricefilter" id="ltohM">Price--Low High</div>
+          <div class="htolM productlist__sortBy--pricefilter" id="htolM">Price--High Low</div>
+          <div class="discountM productlist__sortBy--pricefilter" id="discountM">Discount</div>
         </div>
       </div>
 
@@ -180,8 +178,11 @@
           <!-- Modal body -->
     <div class="modal-body">
       <label for="amountM"></label>
-      <input type="text" id="amountM" readonly class="productlist_mobilefilter--amount" />
+      <input type="text" id="amountM" readonly class="productlist__mobilefilter--amount" />
       <div class="slider" id="priceM"></div>
+      <div class="slider__applyfilter"><input type="button" class="btn btn-primary slider__applyfilter--btn mt-4"
+          value="Apply Filter" /></div>
+      
     </div>
 
 

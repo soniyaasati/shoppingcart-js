@@ -419,7 +419,7 @@ $(function () {
     step: 50,
     values: [0, 1000],
     slide: function (event, ui) {
-      $("#amount").val(ui.values[0] + " - " + ui.values[1] + " ");
+      $("#amount").val(ui.values[0] + "- " + ui.values[1] + "");
       $("#amountM").val(ui.values[0] + "- " + ui.values[1] + " ");
     },
     change: function (event, ui) {
@@ -430,15 +430,15 @@ $(function () {
   $("#priceM").slider(options);
   $("#amount").val(
     $("#price").slider("values", 0) +
-      " - " +
+      "₹ - " +
       $("#price").slider("values", 1) +
-      ""
+      "₹"
   );
   $("#amountM").val(
     $("#priceM").slider("values", 0) +
-      " - " +
+      "₹ -" +
       $("#priceM").slider("values", 1) +
-      ""
+      "₹"
   );
 });
 $(".slider__applyfilter--btn").on("click", function () {
